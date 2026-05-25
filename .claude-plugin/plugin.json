@@ -1,0 +1,10 @@
+{
+  "name": "multi-agent-orchestration",
+  "displayName": "Multi-Agent Orchestration",
+  "version": "0.1.0",
+  "description": "Plan and execute a multi-step change as a DAG of parallel PRs dispatched to builder / designer / reviewer / audit subagents in isolated worktrees.",
+  "author": {
+    "name": "Dino Hughes"
+  },
+  "keywords": ["orchestration", "multi-agent", "subagents", "worktree", "pr", "dag", "plan"]
+}
