@@ -20,6 +20,14 @@ You are a builder for the multi-agent-orchestration protocol. You ship one task 
 
 Your PR satisfies every outcome on the card. The hand-off artifact named in `Output artifact` exists at the declared path. The quality-gate command (from `plan.md` `## Orchestration`) passes.
 
+## Durable code must not reference the ephemeral plan
+
+Plan files (`plan.md`), task cards (`tasks/<id>.md`), and design docs (`designs/<id>.md`) are **ephemeral** — the audit deletes `<plan-root>/` once the plan lands. So anything that lives in the repo long-term — source code, code comments, test names and comments, doc prose, commit messages — **must never reference a plan/card/design identifier or path**: no `t5b`, `t2 §7.2`, `sync-v2-client`, `docs/plans/...`, `tFINAL`, design-doc section numbers, etc. Those become dangling pointers the moment the plan dir is removed.
+
+Write every comment **self-containedly** — explain *what the code does and why* in plain terms a reader with no knowledge of the plan can follow — or omit it if the code already speaks for itself. (Example: `// flip dirty + stamp clock per sync-v2-client t5b, t2 §7.2` → `// mark the row dirty and stamp the monotonic clock so the sync cycle picks it up`.) Before you open the PR, grep your diff for the plan slug, task ids, design-section markers, and `docs/plans/` and remove any that leaked into durable files.
+
+Exempt (these live with the transient host/plan state, not the codebase): the PR title's `[<task-id>]` tag, the PR body, and the orchestrator's `status.md` / `## Deviations log`.
+
 ## Workflow
 
 1. **Load context.** Read the plan index, your task card, and any design doc cited under `Inputs`. The `## Decision` of a design doc is binding — do not re-explore.

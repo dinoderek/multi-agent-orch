@@ -154,6 +154,7 @@ One paragraph: what shipped and why.
 - [ ] Tests added/updated where appropriate (or `N/A` for design tasks)
 - [ ] Hand-off artifact exists at the path declared in `Output artifact`
 - [ ] Docs / spec updates per repo conventions (or `N/A`)
+- [ ] No ephemeral-plan references in durable artifacts: source, comments, tests, and commit messages cite no plan/card/design ids or `docs/plans/...` paths
 
 ## Deviations from card
 <empty if none — otherwise one line per deviation>
@@ -241,6 +242,8 @@ Before opening the PR: load this repo's `CLAUDE.md` / `AGENTS.md` / relevant `do
 
 Size rule: the PR should be ≤ ~2000 added or modified lines (deletions don't count). If you find yourself blowing past that, stop — the card may need to be split. Surface it instead of shipping the mega-PR.
 
+Durable-code rule: the plan, task cards, and design docs are ephemeral (the audit deletes `<plan-root>/` when the plan lands). Do NOT reference plan/card/design ids or `docs/plans/...` paths in source, comments, tests, or commit messages — write comments self-containedly or omit them. Grep your diff for the plan slug / task ids / `docs/plans/` before opening the PR. (PR title/body are exempt.)
+
 When done, open the PR with the four-section body. Return the PR URL.
 ```
 
@@ -302,6 +305,8 @@ For design PRs: check the design-protocol acceptance criteria (sections present,
 For build PRs: check the card's outcomes against the diff. Verify hand-off artifact exists. Verify PR size is within the ~2000-added-line guideline (deletions don't count); flag if not.
 
 For the final test card: check that every plan-level outcome (from `plan.md` `## Outcomes`) has a corresponding test in the diff.
+
+For all PRs: reject any plan/card/design identifier or `docs/plans/...` path that leaked into durable artifacts — source, comments, test names/comments, docs, commit messages. Those references dangle once `<plan-root>/` is deleted; the fix is a self-contained rewrite or removal. (PR title/body and the orchestrator's logs are exempt.)
 
 Host access: <mcp | gh | glab>.
 

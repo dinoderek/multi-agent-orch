@@ -283,6 +283,7 @@ Subagents do not see the chat history. The `Agent` prompt must be self-contained
 - **Reviewers** — cite the PR number, the task file path, the verdict format.
 - **Audit** — cite the plan, `status.md`, the final test card's test files.
 - **For all** — require loading repo `CLAUDE.md` / `AGENTS.md` / `docs/specs/**`.
+- **For all** — the plan, task cards, and design docs are **ephemeral** (the audit deletes `<plan-root>/` when the plan lands). Durable artifacts — source, code comments, test names/comments, docs, commit messages — must NOT reference plan/card/design identifiers or `docs/plans/...` paths (e.g. `t5b`, `t2 §7.2`, the plan slug, `tFINAL`). Comments must be self-contained. The PR title's `[<task-id>]` tag, the PR body, and the orchestrator's `status.md` / `## Deviations log` are exempt (transient host/plan state, not the codebase). Builders grep their diff for these before opening the PR; reviewers reject any that leaked into durable files.
 
 You do NOT need to repeat `model: opus`, `effort: xhigh`, or `isolation: worktree` — the `mao-*` agent definitions pin those.
 

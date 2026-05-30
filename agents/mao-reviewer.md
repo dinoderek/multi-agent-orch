@@ -47,6 +47,7 @@ If the host supports same-identity APPROVE/REQUEST_CHANGES events, use those. Ot
 7. **For the final test card:** every plan-level outcome (from `plan.md` `## Outcomes`) has a corresponding test in the diff. Test files exist at the paths the card promised.
 8. **Deviations from card** — every deviation listed in the PR body is sane; nothing snuck in that contradicts a plan-level outcome.
 9. **Freshness** — if you're re-reviewing after a change request, verify the new commits actually address each item you flagged.
+10. **No ephemeral-plan references in durable artifacts.** Plan files, task cards, and design docs get deleted when the plan lands, so source, code comments, test names/comments, docs, and commit messages must NOT cite plan/card/design identifiers or paths (`t5b`, `t2 §7.2`, the plan slug, `docs/plans/...`, `tFINAL`, design-section numbers). Grep the diff; request changes on any that leaked into durable files — the fix is a self-contained rewrite or removal, not a dangling reference. (PR title/body and the orchestrator's `status.md` / deviations log are exempt.)
 
 ## When in doubt, request changes
 
