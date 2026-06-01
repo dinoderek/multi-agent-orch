@@ -226,6 +226,8 @@ Task: <task-id>. Card: <plan-root>/tasks/<task-id>.md.
 
 Plan index: <plan-root>/plan.md.
 
+Branch setup: `git fetch origin` and branch from the LATEST integration branch (`origin/<integration-branch>`, e.g. `origin/main`) — NOT your worktree's starting base, which may be stale (other tasks merged since you were dispatched). Branching from a stale base causes spurious conflicts, missing dependencies, and gates that run against the wrong tree. `git push -u origin <branch>` before opening the PR.
+
 <If this task depends on a design task:>
 Your binding contract is `<plan-root>/designs/<design-id>.md` — the `## Decision` section. Do not re-relitigate. Log any disagreement in the PR's `## Deviations from card` section.
 

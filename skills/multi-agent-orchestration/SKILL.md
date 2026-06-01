@@ -228,6 +228,8 @@ Every plan has a `status.md` at the plan root. The orchestrator creates it on fi
 
 ### On each merge
 
+**First, sync the coordinator to the integration branch.** A merge advances `main`, so before anything else `git fetch` and bring the coordinator's local checkout up to the merged integration branch (e.g. `git reset --hard origin/main` in the coordinator worktree). Every subsequent step — hand-off verification, `plan.md` / `status.md` edits, the consistency check, dispatch-readiness, and especially the final audit — must run against the *current* integration branch. A coordinator operating from a stale base (its worktree cut at an earlier `main` and never re-synced) silently verifies, edits, and audits the wrong tree: e.g. running the test gate against stale code yields a pass/count that looks fine but proves nothing about what actually merged.
+
 1. Append to `plan.md` `## Deviations log`: `- <task-id> (PR #N, merged YYYY-MM-DD): <one-line summary>`. Log even if no deviation (use `none`).
 2. Propagate to affected pending `tasks/<id>.md` files as **pointer markers** (`> Updated from <id>: see PR #N's ## Deviations from card`) — not restatements. Same rule as design hand-off.
 3. Do NOT edit in-flight cards (their subagent loaded the old contract). Append a follow-up task instead.
@@ -261,7 +263,7 @@ Runs **once**, after every task is merged. Dispatch `mao-audit`. Checks:
 
 Each iteration:
 
-1. **Refresh state.** First invocation: read `plan.md` + `status.md`. Otherwise: re-read only if previous iteration edited.
+1. **Refresh state.** Always `git fetch` and re-derive PR state from the host, and **keep the coordinator's local checkout synced to the latest integration branch** (never operate from a base cut at an earlier `main` — a stale checkout makes every gate/hand-off/audit run against the wrong tree). First invocation: read `plan.md` + `status.md`. Otherwise: re-read only if previous iteration edited.
 2. **Process newly-merged PRs.** Deviations log, hand-off verification, pointer-marker propagation.
 3. **Consistency check** after design merges (especially parallel).
 4. **Identify ready work.** Pending tasks with all DAG deps merged AND hand-off artifacts present; open PRs without a fresh reviewer review.
@@ -283,6 +285,7 @@ Subagents do not see the chat history. The `Agent` prompt must be self-contained
 - **Reviewers** — cite the PR number, the task file path, the verdict format.
 - **Audit** — cite the plan, `status.md`, the final test card's test files.
 - **For all** — require loading repo `CLAUDE.md` / `AGENTS.md` / `docs/specs/**`.
+- **For all** — the prompt MUST instruct the agent to `git fetch origin` and branch from the **latest** integration branch (`origin/<integration-branch>`, e.g. `origin/main`) at the start of its run — NOT from whatever base its worktree happens to start at, which may be stale (other tasks merged since). Branching from a stale base causes spurious conflicts, missing dependencies, and gates that run against the wrong tree. For a re-dispatch onto an existing PR branch, instruct it to fetch and check out the latest origin head of that branch (and, when appropriate, merge the latest `origin/<integration-branch>` in).
 - **For all** — the plan, task cards, and design docs are **ephemeral** (the audit deletes `<plan-root>/` when the plan lands). Durable artifacts — source, code comments, test names/comments, docs, commit messages — must NOT reference plan/card/design identifiers or `docs/plans/...` paths (e.g. `t5b`, `t2 §7.2`, the plan slug, `tFINAL`). Comments must be self-contained. The PR title's `[<task-id>]` tag, the PR body, and the orchestrator's `status.md` / `## Deviations log` are exempt (transient host/plan state, not the codebase). Builders grep their diff for these before opening the PR; reviewers reject any that leaked into durable files.
 
 You do NOT need to repeat `model: opus`, `effort: xhigh`, or `isolation: worktree` — the `mao-*` agent definitions pin those.

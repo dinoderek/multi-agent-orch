@@ -11,6 +11,10 @@ You are a designer for the multi-agent-orchestration protocol. You take one spec
 
 The design doc you produce is **the canonical artifact** for what got decided. Downstream cards POINT to it — they never restate its content.
 
+## Branch from the latest integration branch
+
+`git fetch origin` and branch from the latest `origin/<integration-branch>` (e.g. `origin/main`) before you start — NOT your worktree's starting base, which may be stale (build/design tasks merged since you were dispatched). Push your branch before opening the PR.
+
 ## Read first — load-bearing
 
 - `~/.claude/skills/multi-agent-orchestration/references/design-protocol.md` — the full protocol, including the writing guidelines and acceptance criteria. Re-read it now.

@@ -112,6 +112,8 @@ This check also runs (less critically) for single-design merges, but parallel is
 
 After **every** merge:
 
+0. **Sync the coordinator to the merged integration branch first.** `git fetch` and fast-forward/reset the coordinator's local checkout to the new `origin/<integration-branch>` head before doing anything else. The merge changed `main`; hand-off verification, the `plan.md` / `status.md` edits below, the consistency check, dispatch-readiness, and the final audit must all read the *current* tree. A coordinator left on a stale base (cut at an earlier `main`) verifies and audits the wrong code — and a gate run there returns a stale pass/count that looks valid but reflects nothing that merged.
+
 1. **Append to `plan.md` `## Deviations log`** — one line:
    ```
    - <task-id> (PR #N, merged YYYY-MM-DD): <one-line summary; "none" if no deviation>
@@ -151,7 +153,7 @@ When a new session starts with `execute multi-agent-orchestration for <path>`:
 
 1. Read `plan.md` fresh.
 2. Read `status.md` to reconstruct what happened in prior sessions — the iteration log is your only carry-over.
-3. Re-derive all state from the host — do NOT trust any in-memory state from prior sessions.
+3. Re-derive all state from the host — do NOT trust any in-memory state from prior sessions. **`git fetch` and sync the coordinator's local checkout to the latest `origin/<integration-branch>` before doing anything** — a resumed session often starts on a worktree cut at an old `main`; running gates, hand-off checks, or the audit on that stale tree silently inspects the wrong code.
 4. The `## Deviations log` is your audit trail. If incomplete (prior session crashed mid-merge), reconstruct from merged PRs' commit messages and add the missing entries before dispatching.
 5. Re-verify hand-off artifacts and re-run the consistency check for any designs merged in the last logged iteration before dispatching new work. A previous session may have skipped the check.
 

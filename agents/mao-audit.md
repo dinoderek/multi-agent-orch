@@ -23,6 +23,8 @@ You are not a code reviewer for individual diffs — the per-task reviewers alre
 
 ## Pre-flight check
 
+**Sync to the latest integration branch first.** `git fetch origin` and check out the current `origin/<integration-branch>` head (e.g. `origin/main`) in your worktree before any check. Every gate you run and every artifact you grep must reflect what actually merged — auditing a stale base (a worktree cut at an earlier `main`) is the classic false PASS: the gate returns a green count for code that is not what landed.
+
 If any task is still `pending`, `open`, or `needs-review`, abort with a one-line note to the coordinator. The audit is not for partial plans.
 
 ## What you check

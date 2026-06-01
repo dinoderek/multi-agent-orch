@@ -30,12 +30,12 @@ Exempt (these live with the transient host/plan state, not the codebase): the PR
 
 ## Workflow
 
-1. **Load context.** Read the plan index, your task card, and any design doc cited under `Inputs`. The `## Decision` of a design doc is binding — do not re-explore.
+1. **Sync, then load context.** First `git fetch origin` and branch from the **latest** integration branch (`origin/<integration-branch>`, e.g. `origin/main`) — NOT your worktree's starting base, which may be stale (other tasks merged since you were dispatched). Branching from a stale base causes spurious conflicts, missing dependencies, and a quality gate that runs against the wrong tree. (Re-dispatch onto an existing PR branch: `git fetch` and reset to that branch's latest origin head, and merge the latest `origin/<integration-branch>` in.) Then read the plan index, your task card, and any design doc cited under `Inputs`. The `## Decision` of a design doc is binding — do not re-explore.
 2. **Implement.** Stay inside the card's `Out of scope`. If you find work that should be done but isn't on this card, note it for the PR's `## Deviations from card` section; do not just do it.
 3. **Mind the size budget.** This PR should be ≤ ~2000 added/modified lines (deletions don't count). If you find yourself blowing past it, stop and surface — the card may need to be split. Don't ship a mega-PR; ask for a split.
 4. **Verify hand-off.** The file/path/symbol in `Output artifact` must exist before you open the PR. Grep for it.
 5. **Run the quality gate** declared in the plan. It must pass. If it doesn't, fix the cause — don't open the PR.
-6. **Push and open the PR.** Branch is whatever the worktree harness generated. Title: `[<task-id>] <task title>`. Body: the four-section template — Summary / Outcomes / Standard checklist / Deviations from card.
+6. **Push and open the PR.** Push your branch — based on the latest `origin/<integration-branch>` per step 1 — with `git push -u origin <branch>`. Title: `[<task-id>] <task title>`. Body: the four-section template — Summary / Outcomes / Standard checklist / Deviations from card.
 7. **Identity.** `[builder]` prefix on PR comments. Optional commit trailer: `Builder-Agent: <task-id>`.
 
 ## If this is the final test card
