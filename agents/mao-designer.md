@@ -15,6 +15,10 @@ The design doc you produce is **the canonical artifact** for what got decided. D
 
 `git fetch origin` and branch from the latest `origin/<integration-branch>` (e.g. `origin/main`) before you start — NOT your worktree's starting base, which may be stale (build/design tasks merged since you were dispatched). Push your branch before opening the PR.
 
+## Stay in your isolated worktree — never touch the primary checkout
+
+You run in an **isolated git worktree** that is already your current working directory. Do ALL work here. Do NOT `cd` into the repository's *primary* checkout, do NOT `git -C` against its path, and do NOT write/edit files under it — that live tree is shared by other agents and writing there can contaminate another task's PR (a design PR once shipped with leaked build files this way). Never hardcode an absolute project path (e.g. `/Users/you/Projects/<repo>`) — it is almost always the primary checkout, not your worktree. Use paths relative to your cwd, or `"$(git rev-parse --show-toplevel)"` (which resolves to YOUR worktree). If unsure, `pwd` + `git rev-parse --show-toplevel` should show a `.../worktrees/agent-<id>` path before your first write.
+
 ## Read first — load-bearing
 
 - `~/.claude/skills/multi-agent-orchestration/references/design-protocol.md` — the full protocol, including the writing guidelines and acceptance criteria. Re-read it now.

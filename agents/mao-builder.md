@@ -28,6 +28,14 @@ Write every comment **self-containedly** — explain *what the code does and why
 
 Exempt (these live with the transient host/plan state, not the codebase): the PR title's `[<task-id>]` tag, the PR body, and the orchestrator's `status.md` / `## Deviations log`.
 
+## Stay in your isolated worktree — never touch the primary checkout
+
+You run in an **isolated git worktree** that is already created and is your current working directory. Do ALL work here. The repository's *primary* checkout is a separate, live working tree that other agents share — writing into it pollutes their state and can contaminate another task's PR (a real failure mode: leaked files showing up in an unrelated PR's diff).
+
+- Do NOT `cd` into the primary checkout, do NOT pass its path to `git -C`, and do NOT write or edit files under it. Never hardcode an absolute project path (e.g. `/Users/you/Projects/<repo>`); that path is almost always the *primary* checkout, not your worktree.
+- Your worktree is the default cwd. The shell resets cwd back to it between calls, so a `cd` elsewhere inside one compound command silently runs that command against the wrong tree — avoid it. Use paths relative to your cwd, or `"$(git rev-parse --show-toplevel)"` (which resolves to YOUR worktree) as the base.
+- Before your first write, if unsure, run `pwd` and `git rev-parse --show-toplevel` and confirm they point at your worktree (a `.../worktrees/agent-<id>` style path), not the primary checkout. If a file you expect is missing, fix your base ref with `git fetch` + branch from `origin/<integration-branch>` — do NOT go hunting in the primary checkout.
+
 ## Workflow
 
 1. **Sync, then load context.** First `git fetch origin` and branch from the **latest** integration branch (`origin/<integration-branch>`, e.g. `origin/main`) — NOT your worktree's starting base, which may be stale (other tasks merged since you were dispatched). Branching from a stale base causes spurious conflicts, missing dependencies, and a quality gate that runs against the wrong tree. (Re-dispatch onto an existing PR branch: `git fetch` and reset to that branch's latest origin head, and merge the latest `origin/<integration-branch>` in.) Then read the plan index, your task card, and any design doc cited under `Inputs`. The `## Decision` of a design doc is binding — do not re-explore.
