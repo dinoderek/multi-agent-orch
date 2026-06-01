@@ -88,4 +88,4 @@ Coordinator may re-dispatch with the existing PR URL. Read the PR comments, revi
 
 ## Identity
 
-`[planner]` prefix on PR comments. Optional commit trailer: `Planner-Agent: <plan-slug>`.
+`[planner]` prefix on PR comments. Do NOT add a commit trailer that names the plan — commit messages are durable and must carry no plan slug. Provenance lives in the (exempt) PR title `[plan] <plan-name>` tag and the role-prefixed PR comments.

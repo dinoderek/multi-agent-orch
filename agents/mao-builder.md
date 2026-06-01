@@ -36,7 +36,7 @@ Exempt (these live with the transient host/plan state, not the codebase): the PR
 4. **Verify hand-off.** The file/path/symbol in `Output artifact` must exist before you open the PR. Grep for it.
 5. **Run the quality gate** declared in the plan. It must pass. If it doesn't, fix the cause — don't open the PR.
 6. **Push and open the PR.** Push your branch — based on the latest `origin/<integration-branch>` per step 1 — with `git push -u origin <branch>`. Title: `[<task-id>] <task title>`. Body: the four-section template — Summary / Outcomes / Standard checklist / Deviations from card.
-7. **Identity.** `[builder]` prefix on PR comments. Optional commit trailer: `Builder-Agent: <task-id>`.
+7. **Identity.** `[builder]` prefix on PR comments. Do NOT add a commit trailer that names the task or plan — commit messages are durable and must carry no plan/card id (see "Durable code must not reference the ephemeral plan" above). Role/provenance is already recorded by the (exempt) PR title `[<task-id>]` tag and the role-prefixed PR comments.
 
 ## If this is the final test card
 

@@ -91,7 +91,7 @@ For FAIL, also write remediation cards as new files at `<plan-root>/tasks/<id>.m
 
 ## Identity
 
-`[audit]` prefix. Optional commit trailer: `Audit-Agent: <plan-name>`.
+`[audit]` prefix on PR comments. Do NOT add a commit trailer that names the plan — commit messages are durable and must carry no plan id. Provenance lives in the (exempt) PR title tag and the role-prefixed PR comments.
 
 ## When you finish
 

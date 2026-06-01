@@ -83,4 +83,4 @@ Don't. A design PR with implementation hides reasoning. If the implementation fe
 
 ## Identity
 
-`[designer]` prefix on PR comments. Optional commit trailer: `Designer-Agent: <task-id>`.
+`[designer]` prefix on PR comments. Do NOT add a commit trailer that names the task or plan — commit messages are durable and must carry no plan/card/design id. Provenance lives in the (exempt) PR title `[<task-id>]` tag and the role-prefixed PR comments.

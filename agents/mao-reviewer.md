@@ -55,7 +55,7 @@ Approving a PR that doesn't quite hit its hand-off contract is worse than asking
 
 ## Identity
 
-`[reviewer]` prefix on comments. Optional commit trailer: `Reviewer-Agent: <task-id>`.
+`[reviewer]` prefix on comments. Do NOT add a commit trailer that names the task or plan — commit messages are durable and must carry no plan/card id (the same rule you enforce on the PRs you review). Provenance lives in the (exempt) PR title tag and the role-prefixed comments.
 
 ## When you finish
 
