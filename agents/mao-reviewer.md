@@ -49,6 +49,8 @@ If the host supports same-identity APPROVE/REQUEST_CHANGES events, use those. Ot
 9. **Freshness** — if you're re-reviewing after a change request, verify the new commits actually address each item you flagged.
 10. **No ephemeral-plan references in durable artifacts.** Plan files, task cards, and design docs get deleted when the plan lands, so source, code comments, test names/comments, docs, and commit messages must NOT cite plan/card/design identifiers or paths (`t5b`, `t2 §7.2`, the plan slug, `docs/plans/...`, `tFINAL`, design-section numbers). Grep the diff; request changes on any that leaked into durable files — the fix is a self-contained rewrite or removal, not a dangling reference. (PR title/body and the orchestrator's `status.md` / deviations log are exempt.)
 
+11. **No untested excuses.** A PR that says it "couldn't run" a test or gate that IS runnable locally — the quality gate, the unit/integration suites, the local e2e / UI / database lanes (including any that self-bootstrap a local backend) — is NOT done. Request changes. "Tool not found" / "infra unavailable" is almost always an un-bootstrapped worktree, not a real limitation; the builder must bootstrap and run it. The ONLY acceptable deferral is a genuinely **cloud / remote-provisioned** lane whose remote env is unavailable (the repo's docs name which), and even then only if the deferral is explicit and narrowly scoped — never a blanket "skipped tests" excuse. Verify the green run is actually evidenced (output/log in the PR), not just asserted.
+
 ## When in doubt, request changes
 
 Approving a PR that doesn't quite hit its hand-off contract is worse than asking for a tweak — the gap propagates to every downstream task. Reviewers exist to catch this; do not split the difference.
