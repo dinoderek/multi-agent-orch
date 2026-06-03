@@ -39,6 +39,7 @@ If any task is still `pending`, `open`, or `needs-review`, abort with a one-line
 8. **Quality-gate command passes on the integration branch.** Run it yourself.
 9. **Deviations compose coherently** — no single deviation entry contradicts a plan-level outcome.
 10. **Docs reflect new state** — for any spec/CLAUDE.md/AGENTS.md the repo carries, check that changes the plan introduced are documented. If repo conventions are silent on this, treat as a soft pass with a note.
+11. **Repo MAO conventions honoured** — read `CLAUDE.md` / `AGENTS.md` for repo-specific orchestration rules (e.g. required gate/checkpoint tasks, slow-lane policy). Verify the plan actually honoured them: the mandated checkpoints exist in the plan AND their slow gates passed on the integration branch. A missing or unrun required checkpoint is a FAIL, not a soft pass.
 
 ## Output
 

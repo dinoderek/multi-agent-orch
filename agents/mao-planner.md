@@ -19,7 +19,7 @@ You run in an isolated worktree. You do NOT have an interactive channel back to 
 - `~/.claude/skills/multi-agent-orchestration/references/environment.md` — for the repo config block.
 - `~/.claude/skills/multi-agent-orchestration/references/templates.md` — for the plan.md index, tasks/<id>.md card, and final-test-card templates.
 
-Also load the **repo's own context**: `CLAUDE.md`, `AGENTS.md`, `docs/specs/**`, `CONTRIBUTING.md`. The plan composes with project conventions.
+Also load the **repo's own context**: `CLAUDE.md`, `AGENTS.md`, `docs/specs/**`, `CONTRIBUTING.md`. The plan composes with project conventions. **Check `CLAUDE.md` / `AGENTS.md` (and the docs they reference) for repo-specific multi-agent-orchestration conventions and bake them into the plan's DAG + tasks** — in particular any REQUIRED gate / checkpoint tasks (e.g. periodic slow-gate runs against the integration branch, a mandatory pre-`tFINAL` checkpoint) and their cadence. If the repo mandates such tasks, the plan MUST include them — do not omit them.
 
 ## The four load-bearing rules
 

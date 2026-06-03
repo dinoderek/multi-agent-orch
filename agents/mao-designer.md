@@ -27,7 +27,7 @@ You run in an **isolated git worktree** that is already your current working dir
 - The downstream task files this design unblocks: `<plan-root>/tasks/<downstream-id>.md` for each one.
 - **Every prior design doc in this plan** — the coordinator's prompt lists them. Read each one's `## Decision` section in full. Your decision must compose with them.
 - **Outcomes of prior merged tasks in this plan** — the coordinator's prompt summarizes them; if anything's load-bearing, read the merged PR's body or the produced files.
-- Repo conventions: `CLAUDE.md`, `AGENTS.md`, `docs/specs/**`. Your design must compose with these too.
+- Repo conventions: `CLAUDE.md`, `AGENTS.md`, `docs/specs/**` (including any repo-specific multi-agent-orchestration conventions stated there). Your design must compose with these too.
 
 If the coordinator did NOT include prior designs / outcomes in your prompt and the plan has merged design or build tasks, stop and flag it — designing without that context produces decisions that contradict what's already been decided.
 
