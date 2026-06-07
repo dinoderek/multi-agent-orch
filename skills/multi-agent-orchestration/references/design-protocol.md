@@ -149,6 +149,10 @@ When the coordinator dispatches a build task whose card was refined by a design 
 
 The downstream card itself already points to the doc (per step 5 above). The prompt reinforces.
 
+## Update architectural and technical documentation
+
+It *can* be the case that the design document makes architectural decisions that should be documented. The design agent should highlight the need for long standing documentation and propose it to the coordinator. This documentation might be storing the design document permanently (the plan directory is ephemeral), storing a trimmed down version of the design document, recording design decisions in existing documents.
+
 ## Anti-patterns
 
 - **Restating the design in cards.** Cards point to the doc; the doc is canonical. Two copies = inevitable drift.

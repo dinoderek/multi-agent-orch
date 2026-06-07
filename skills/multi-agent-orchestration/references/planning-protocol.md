@@ -150,7 +150,9 @@ The final test card:
 - **Output artifact:** the test file path(s).
 - **Out of scope:** anything that's not testing the plan outcomes (don't bundle unrelated work).
 
-If the plan has genuinely untestable outcomes (rare — pure-doc plans, or plans whose outcome is "deleted the dead code"), the planner may omit the test card BUT must explicitly justify in the PR body's `## Deviations from card` section. Default: include it.
+Tests should NOT be duplicated. If task cards already took care of testing, the test card can be skipped. 
+
+If the plan has genuinely untestable outcomes (rare — pure-doc plans, or plans whose outcome is "deleted the dead code"), the planner may omit the test card BUT must explicitly justify in the PR body's `## Deviations from card` section. Default: include it. Important: DO NOT DUPLICATE TESTS. 
 
 The audit step later checks that the final test card's tests actually exercise each plan outcome — a hand-wave test ("there's a smoke test") that doesn't map to outcomes is rejected by audit.
 

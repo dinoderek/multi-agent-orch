@@ -214,7 +214,7 @@ This is the discipline that keeps a multi-agent plan coherent across iterations.
 
 ### `status.md` — mandatory, orchestrator maintains it
 
-Every plan has a `status.md` at the plan root. The orchestrator creates it on first iteration and appends one entry per iteration thereafter — dispatched/merged/stuck + free-text notes. The audit reads it; resumed sessions reconstruct from it.
+Every plan has a `status.md` at the plan root. The orchestrator creates it on first iteration and appends one entry per iteration thereafter — dispatched/merged/stuck + free-text notes. The audit reads it; resumed sessions reconstruct from it. The purpose of the `status.md` is for a new orchestrator to be able to resume the work. Orchestrator should keep a note of current progress, deviations and other notes that would be useful to resume the session.
 
 ### Per-iteration loop
 
